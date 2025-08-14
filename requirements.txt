@@ -1,0 +1,13 @@
+dotenv
+langchain
+langchain-community
+langchain-google-genai
+langchain-ollama
+langchain-openai
+langfuse
+langgraph
+loguru
+pydantic
+rich
+sqlalchemy
+tenacity
