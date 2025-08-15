@@ -1,14 +1,123 @@
-from langchain_community.chat_message_histories import SQLChatMessageHistory
+import sqlite3
+from typing import List
+from datetime import datetime
+from pydantic import BaseModel
+from langchain_core.messages import HumanMessage,AIMessage,BaseMessage
 
+class DataBaseManager(BaseModel):
+    """SQLite conversation store for threads and messages."""
 
+    db_path: str
 
+    def __init__(self, db_path: str):
+        super().__init__(db_path=db_path)
+        self.conn = sqlite3.connect(self.db_path, check_same_thread=False)
+        self.conn.execute("PRAGMA foreign_keys = ON;")
+        self.conn.row_factory = sqlite3.Row
+        self._init_schema()
 
+    def _init_schema(self) -> None:
+        cur = self.conn.cursor()
+        cur.execute(
+            """
+            CREATE TABLE IF NOT EXISTS threads (
+                thread_id TEXT PRIMARY KEY,
+                created_at TEXT NOT NULL
+            );
+            """
+        )
+        # Messages table
+        cur.execute(
+            """
+            CREATE TABLE IF NOT EXISTS messages (
+                message_id TEXT PRIMARY KEY,
+                thread_id TEXT NOT NULL,
+                role TEXT NOT NULL CHECK(role IN ('human','ai')),
+                content TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                FOREIGN KEY(thread_id) REFERENCES threads(thread_id) ON DELETE CASCADE
+            );
+            """
+        )
+        self.conn.commit()
 
-chat_message_history=SQLChatMessageHistory(
-    session_id="test_Session_id", connection="sqlite:///sqlite.db"
-)
+    def create_thread(self, thread_id: str) -> None:
+        """Create a thread if it doesn't exist."""
+        cur = self.conn.cursor()
+        cur.execute(
+            """
+            INSERT OR IGNORE INTO threads (thread_id, created_at)
+            VALUES (?, ?)
+            """,
+            (thread_id, datetime.utcnow().isoformat()),
+        )
+        self.conn.commit()
 
-chat_message_history.add_user_message("HELLO")
-chat_message_history.add_ai_message("HI")
+    def delete_thread(self, thread_id: str) -> None:
+        cur = self.conn.cursor()
+        cur.execute("DELETE FROM threads WHERE thread_id = ?", (thread_id,))
+        self.conn.commit()
 
-print(chat_message_history.get_messages())
+    def list_threads(self) -> List[str]:
+        cur = self.conn.cursor()
+        rows = cur.execute(
+            "SELECT thread_id FROM threads ORDER BY created_at DESC"
+        ).fetchall()
+        return [row["thread_id"] for row in rows]
+
+    def add_human_message(self, thread_id: str, message_id: str, content: str) -> None:
+        self._add_message(thread_id, message_id, role="human", content=content)
+
+    def add_ai_message(self, thread_id: str, message_id: str, content: str) -> None:
+        self._add_message(thread_id, message_id, role="ai", content=content)
+
+    def add_message_obj(self, thread_id: str, message_id: str, message: BaseMessage) -> None:
+        if isinstance(message, HumanMessage):
+            self.add_human_message(thread_id, message_id,str(message.content))
+        elif isinstance(message, AIMessage):
+            self.add_ai_message(thread_id, message_id,str( message.content))
+        else:
+            raise ValueError("Unsupported message type. Use HumanMessage or AIMessage.")
+
+    def _add_message(self, thread_id: str, message_id: str, role: str, content: str) -> None:
+        self.create_thread(thread_id)
+        cur = self.conn.cursor()
+        cur.execute(
+            """
+            INSERT OR REPLACE INTO messages (message_id, thread_id, role, content, created_at)
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            (message_id, thread_id, role, content, datetime.now().isoformat()),
+        )
+        self.conn.commit()
+
+    def get_messages(self, thread_id: str) -> List[BaseMessage]:
+        """Return messages as LangChain message objects (HumanMessage/AIMessage)."""
+        cur = self.conn.cursor()
+        rows = cur.execute(
+            """
+            SELECT role, content
+            FROM messages
+            WHERE thread_id = ?
+            ORDER BY created_at ASC
+            """,
+            (thread_id,),
+        ).fetchall()
+        messages: List[BaseMessage] = []
+        for row in rows:
+            if row["role"] == "human":
+                messages.append(HumanMessage(content=row["content"]))
+            else:
+                messages.append(AIMessage(content=row["content"]))
+        return messages
+
+    def get_raw_messages(self, thread_id: str) -> List[sqlite3.Row]:
+        """Return raw message rows for custom needs."""
+        cur = self.conn.cursor()
+        return cur.execute(
+            "SELECT * FROM messages WHERE thread_id = ? ORDER BY created_at ASC",
+            (thread_id,),
+        ).fetchall()
+
+    def close(self) -> None:
+        self.conn.close()
