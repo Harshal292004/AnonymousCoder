@@ -1,6 +1,5 @@
 from langchain_core.tools import tool
 import os
-import pathlib
 
 DIR_TO_AVOID = {
     # python
