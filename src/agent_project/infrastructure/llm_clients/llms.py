@@ -7,13 +7,14 @@ from langchain_core.language_models import BaseChatModel
 from langchain_ollama import ChatOllama
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_openai import ChatOpenAI
-
+from langchain_groq import ChatGroq
 
 class ModelProvider(str, Enum):
     """Supported LLM providers."""
     OPENAI = "openai"
     GOOGLE = "google"
     OLLAMA = "ollama"
+    GROQ = "groq"
 
 
 class ModelParameters(BaseModel):
@@ -67,7 +68,19 @@ class OpenAILLM(BaseLLM):
             max_retries=config.parameters.max_retries
         )
 
-
+class GroqLLM(BaseLLM):
+    def create_llm(self, config: LLMConfig) -> BaseChatModel:
+        
+        if not config.api_key and not os.getenv("GROQ_API_KEY"):
+            raise ValueError("Groqq API key is required")
+        
+        api_key=config.api_key 
+        return ChatGroq(
+            model=config.model_name,
+            api_key=SecretStr(str(api_key)),
+            max_tokens=config.parameters.max_tokens,
+        )    
+        
 class GoogleLLM(BaseLLM):
     
     def create_llm(self, config: LLMConfig) -> BaseChatModel:

@@ -17,4 +17,17 @@
 - langchain_google_genai
 - langchain_openai
 
+
+
+
+- Python 
+- Javascript
+- Scaffold projects 
+- Ruby 
+- Go 
+- java 
+- rust 
+- c 
+- cpp
+
 warnings
