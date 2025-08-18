@@ -10,5 +10,6 @@ def index_code_base(path:str):
     """
     data=""
     with open(path,mode="r")  as f:
-        data=f.read()
+        data=f.read() 
+
         
