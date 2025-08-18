@@ -1,7 +1,9 @@
 from langfuse.langchain import CallbackHandler
-from utilities.config import settings
 
-langfuse_handler = CallbackHandler(
-    public_key=settings.LANGFUSE_PUBLIC_KEY,
-)
+def get_langfuse_handler(LANGFUSE_PUBLIC_KEY):
+    langfuse_handler = CallbackHandler(
+    public_key=LANGFUSE_PUBLIC_KEY
+    )
+    
+    return langfuse_handler
 
