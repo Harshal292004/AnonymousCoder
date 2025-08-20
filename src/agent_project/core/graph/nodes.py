@@ -1,6 +1,14 @@
 from ..states.AnonymousState import AnonymousState
+from prompts.system_prompt import get_system_prompt
+from infrastructure.llm_clients.llms import GroqLLM,LLMConfig
 
+def get_memory_node():
+        
 def memory_node(state:AnonymousState):
+    query=state.messages[-1]
+    GroqLLM().create_llm(config=LLMConfig(provider="groq"))
+    
+    
     pass
 
 def understand_query_node(state:AnonymousState):

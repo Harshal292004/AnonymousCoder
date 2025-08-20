@@ -1,12 +1,16 @@
 from pydantic import BaseModel
 from uuid import uuid4
 from ..utilities.config import AppSettings
-from core.graph.graph import code_graph
+from core.graph.graph import create_graph
 from langchain_core.messages import HumanMessage, SystemMessage, AIMessage,ToolMessage
 from core.states.AnonymousState import AnonymousState
 from infrastructure.databases.sql_database import DataBaseManager
+from infrastructure.llm_clients.llms import ModelProvider,LLMConfig,GroqLLM
+import textual
 
-
+## this is the application where everything starts
+## lets work it out till only memory_node with the cli
+## add a wrapper aorund everynode with 
 class Application(BaseModel):
     
     def __init__(self,settings:AppSettings):
