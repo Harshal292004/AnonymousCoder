@@ -57,3 +57,10 @@ def get_system_prompt(os:str, path:str):
 
             The user's OS version is {os}. The absolute path of the user's workspace is {path}. The user's shell is /bin/bash
             """
+            
+def get_memory_prompt():
+    return """
+    So you are given a query from USER . You have to throughly analyze the query and understand it in deep for checking if any of the users query has the following 
+    1. Personal detail like Name,Workplace,Profession,Aspiration,Interests
+    2. Code style, prefred language, 
+    """

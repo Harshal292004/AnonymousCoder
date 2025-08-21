@@ -8,7 +8,8 @@ from langchain_ollama import ChatOllama
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_openai import ChatOpenAI
 from langchain_groq import ChatGroq
-
+from openai import OpenAI
+from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 class ModelProvider(str, Enum):
     """Supported LLM providers."""
     OPENAI = "openai"
@@ -113,3 +114,21 @@ class OllamaLLM(BaseLLM):
             num_predict=config.parameters.max_tokens
         )
     
+
+class HuggingFaceEmbeddingsLLM():
+    def create_llm(self,config:LLMConfig) :
+        self.model_name=config.model_name
+        self.client=HuggingFaceEmbeddings(
+            model_name=self.model_name,
+            model_kwargs={"device":"cpu"},
+            encode_kwargs={"normalize_embeddings":False}
+        )
+        pass
+    
+    def get_embeddings(self,text:str,encoding_format):
+        
+        embedded_query=self.client.embed_query(
+            text=text
+        )
+        
+        return embedded_query

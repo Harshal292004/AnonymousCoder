@@ -2,10 +2,14 @@ from ..states.AnonymousState import AnonymousState
 from prompts.system_prompt import get_system_prompt
 from infrastructure.llm_clients.llms import GroqLLM,LLMConfig
 from langchain_core.language_models import BaseChatModel
-def get_memory_node(llm:BaseChatModel):
+from langchain_huggingface.embeddings import HuggingFaceEmbeddings
+
+def get_memory_node(embeddings_llm:HuggingFaceEmbeddings,llm:BaseChatModel):
     def memory_node(state:AnonymousState):
         query=state.messages[-1]
-        llm.invoke([query])
+        llm_with_tools=llm.bind_tools([])
+        
+        memory_ananlysis_chain= prompt | embeddings_llm
         
         pass
 
