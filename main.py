@@ -1,10 +1,14 @@
-from src.agent_project.application.app import Application
-from src.agent_project.utilities.config import AppSettings
+# from src.agent_project.application.app import Application
+# from src.agent_project.utilities.config import AppSettings
+
+from src.agent_project.application.app import AnonymousCoderApp
+
 def main():
-    print("WELCOME")
-    settings=AppSettings()
-    app=Application(settings)
-    app.invoke()
+    # settings=AppSettings()
+    # app=Application(settings)
+    # app.invoke()
+    app = AnonymousCoderApp()
+    app.run()
      
 
 

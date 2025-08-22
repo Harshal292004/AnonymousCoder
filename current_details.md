@@ -31,3 +31,6 @@
 - cpp
 
 warnings
+
+add in system prompt about memory related queries like "Remeber I am an Incapable developer" will be handled in the update_memory node no need of adding them in the future but if you need it for something else please you are free to do what ever the fuck you wanna do 
+
