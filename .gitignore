@@ -6,3 +6,4 @@ __pycache__
 uv.lock
 __init__.py
 */__init__.py
+user_space
