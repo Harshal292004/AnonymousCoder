@@ -11,3 +11,4 @@ pydantic
 rich
 sqlalchemy
 tenacity
+textual

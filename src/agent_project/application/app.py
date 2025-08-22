@@ -9,20 +9,39 @@
 ## this is the application where everything starts
 ## lets work it out till only memory_node with the cli
 ## add a wrapper aorund everynode with 
-from textual.app import App, ComposeResult
-from textual.widgets import Footer, Header
+from textual.app import App, ComposeResult , RenderResult
+from textual.widgets import Footer,Input
+from textual.widget import Widget
+from textual.containers import VerticalScroll,VerticalGroup
 
+class AnonymousCoderWelcome(Widget):
+    def render(self)-> RenderResult:
+        return """
+░█████╗░███╗░░██╗░█████╗░███╗░░██╗██╗░░░██╗███╗░░░███╗░█████╗░██╗░░░██╗░██████╗  ░█████╗░░█████╗░██████╗░███████╗██████╗░
+██╔══██╗████╗░██║██╔══██╗████╗░██║╚██╗░██╔╝████╗░████║██╔══██╗██║░░░██║██╔════╝  ██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗
+███████║██╔██╗██║██║░░██║██╔██╗██║░╚████╔╝░██╔████╔██║██║░░██║██║░░░██║╚█████╗░  ██║░░╚═╝██║░░██║██║░░██║█████╗░░██████╔╝
+██╔══██║██║╚████║██║░░██║██║╚████║░░╚██╔╝░░██║╚██╔╝██║██║░░██║██║░░░██║░╚═══██╗  ██║░░██╗██║░░██║██║░░██║██╔══╝░░██╔══██╗
+██║░░██║██║░╚███║╚█████╔╝██║░╚███║░░░██║░░░██║░╚═╝░██║╚█████╔╝╚██████╔╝██████╔╝  ╚█████╔╝╚█████╔╝██████╔╝███████╗██║░░██║
+╚═╝░░╚═╝╚═╝░░╚══╝░╚════╝░╚═╝░░╚══╝░░░╚═╝░░░╚═╝░░░░░╚═╝░╚════╝░░╚═════╝░╚═════╝░  ░╚════╝░░╚════╝░╚═════╝░╚══════╝╚═╝░░╚═╝"""
+
+class AnonymousCoderIntro(VerticalGroup):
+    
+    def compose(self) -> ComposeResult:
+        yield AnonymousCoderWelcome()
+        
 
 class AnonymousCoderApp(App):
     """A Textual app for coding through cli"""
     
     # the agent settings like the model to use , api keys all of it will be managed from here 
     # s , m , h will open other portal in the terminal itself for configurations
-    BINDINGS = [("s","settings","Update app settings"),("m","memories","Manage memories"),("h","history","Manage chats"),("^c","exit","Control C to exit")]
-
+    BINDINGS = [("s","settings","Update app settings"),("m","memories","Manage memories"),("h","history","Manage chats"),("ctrl+c","quit","Quit")]
     def compose(self) -> ComposeResult:
         """Create child widgets for the app."""
+        yield VerticalScroll()
+        yield Input()
         yield Footer()
+        
 
     def action_toggle_dark(self) -> None:
         """An action to toggle dark mode."""
