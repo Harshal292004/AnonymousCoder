@@ -18,8 +18,9 @@ class Application(BaseModel):
         self.settings=settings
         self.database=DataBaseManager(db_path="temp.db")
         initialize_vector_store(db_file=settings.VECTOR_DB_FILE,embedding_model=HuggingFaceEmbeddings(model_name=settings.EMBEDDINGS_MODEL_NAME, model_kwargs={"device":settings.DEVICE}))
-        
-        pass
+        llm_config=LLMConfig(provider=ModelProvider.GROQ,model_name="")
+        llm=GroqLLM().create_llm(config=llm_config)
+        self.graph=create_graph(llm=llm)
 
     def invoke(self):
         self._chat()
@@ -51,7 +52,7 @@ class Application(BaseModel):
             else:
                 #run the graph with prompt history
                 # append messages in the prompt with System Prompt
-                output=code_graph.invoke(AnonymousState(messages=[HumanMessage(query)],error_count=0))
+                output=self.graph.invoke(AnonymousState(messages=[HumanMessage(query)],error_count=0))
                 message_id=str(uuid4())
                 self.database.add_ai_message(thread_id=thread_id,message_id=message_id,content=output["messages"])
 

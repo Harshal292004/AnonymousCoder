@@ -2,7 +2,7 @@ from infrastructure.databases.vector_database import _get_config
 from langchain_core.tools import tool
 import numpy as np
 import uuid
-from typing import Dict, List, Optional
+from typing import Dict, List
 import sqlite3
 # Utility functions
 def _serialize_embedding(embedding: List[float]) -> bytes:
