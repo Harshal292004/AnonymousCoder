@@ -4,7 +4,7 @@ from infrastructure.llm_clients.llms import GroqLLM,LLMConfig
 from langchain_core.language_models import BaseChatModel
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 from prompts.system_prompt import get_memory_prompt
-def get_memory_node(embeddings_llm:HuggingFaceEmbeddings,llm:BaseChatModel):
+def get_memory_node(llm:BaseChatModel):
     def memory_node(state:AnonymousState):
         query=state.messages[-1]
         memory_prompt=get_memory_prompt()

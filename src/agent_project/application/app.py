@@ -9,7 +9,7 @@ from infrastructure.llm_clients.llms import ModelProvider,LLMConfig,GroqLLM
 # this is the application where everything starts
 # lets work it out till only memory_node with the cli
 # add a wrapper aorund everynode with
-# add tabs feature
+
 class Application(BaseModel):
 
     def __init__(self,settings:AppSettings):
