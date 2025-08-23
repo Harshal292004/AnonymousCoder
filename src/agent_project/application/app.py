@@ -5,7 +5,9 @@ from core.graph.graph import create_graph
 from langchain_core.messages import HumanMessage, SystemMessage, AIMessage,ToolMessage
 from core.states.AnonymousState import AnonymousState
 from infrastructure.databases.sql_database import DataBaseManager
+from infrastructure.databases.vector_database import initialize_vector_store
 from infrastructure.llm_clients.llms import ModelProvider,LLMConfig,GroqLLM
+from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 # this is the application where everything starts
 # lets work it out till only memory_node with the cli
 # add a wrapper aorund everynode with
@@ -15,6 +17,8 @@ class Application(BaseModel):
     def __init__(self,settings:AppSettings):
         self.settings=settings
         self.database=DataBaseManager(db_path="temp.db")
+        initialize_vector_store(db_file=settings.VECTOR_DB_FILE,embedding_model=HuggingFaceEmbeddings(model_name=settings.EMBEDDINGS_MODEL_NAME, model_kwargs={"device":settings.DEVICE}))
+        
         pass
 
     def invoke(self):
