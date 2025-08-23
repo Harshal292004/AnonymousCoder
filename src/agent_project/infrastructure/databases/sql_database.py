@@ -1,17 +1,21 @@
 import sqlite3
 from typing import List
 from datetime import datetime
-from pydantic import BaseModel
-from langchain_core.messages import HumanMessage,AIMessage,BaseMessage
+from pydantic import BaseModel, Field
+from langchain_core.messages import HumanMessage, AIMessage, BaseMessage
 
 class DataBaseManager(BaseModel):
     """SQLite conversation store for threads and messages."""
 
-    db_path: str
+    db_path: str = Field(default="user_space/history.db")
+    
+    class Config:
+        arbitrary_types_allowed = True
 
-    def __init__(self, db_path: str):
+    def __init__(self, db_path: str = "user_space/history.db"):
         super().__init__(db_path=db_path)
-        self.conn = sqlite3.connect(self.db_path, check_same_thread=False)
+        # Use object.__setattr__ to bypass Pydantic's validation
+        object.__setattr__(self, 'conn', sqlite3.connect(self.db_path, check_same_thread=False))
         self.conn.execute("PRAGMA foreign_keys = ON;")
         self.conn.row_factory = sqlite3.Row
         self._init_schema()
@@ -22,6 +26,7 @@ class DataBaseManager(BaseModel):
             """
             CREATE TABLE IF NOT EXISTS threads (
                 thread_id TEXT PRIMARY KEY,
+                title TEXT,
                 created_at TEXT NOT NULL
             );
             """
@@ -41,15 +46,15 @@ class DataBaseManager(BaseModel):
         )
         self.conn.commit()
 
-    def create_thread(self, thread_id: str) -> None:
+    def create_thread(self, thread_id: str, title: str) -> None:
         """Create a thread if it doesn't exist."""
         cur = self.conn.cursor()
         cur.execute(
             """
-            INSERT OR IGNORE INTO threads (thread_id, created_at)
-            VALUES (?, ?)
+            INSERT OR IGNORE INTO threads (thread_id, title, created_at)
+            VALUES (?, ?, ?)
             """,
-            (thread_id, datetime.utcnow().isoformat()),
+            (thread_id, title, datetime.utcnow().isoformat()),
         )
         self.conn.commit()
 
@@ -61,9 +66,9 @@ class DataBaseManager(BaseModel):
     def list_threads(self) -> List[str]:
         cur = self.conn.cursor()
         rows = cur.execute(
-            "SELECT thread_id FROM threads ORDER BY created_at DESC"
+            "SELECT thread_id, title FROM threads ORDER BY created_at DESC"
         ).fetchall()
-        return [row["thread_id"] for row in rows]
+        return [f"{row['thread_id']} {row['title']}" for row in rows]
 
     def add_human_message(self, thread_id: str, message_id: str, content: str) -> None:
         self._add_message(thread_id, message_id, role="human", content=content)
@@ -73,14 +78,13 @@ class DataBaseManager(BaseModel):
 
     def add_message_obj(self, thread_id: str, message_id: str, message: BaseMessage) -> None:
         if isinstance(message, HumanMessage):
-            self.add_human_message(thread_id, message_id,str(message.content))
+            self.add_human_message(thread_id, message_id, str(message.content))
         elif isinstance(message, AIMessage):
-            self.add_ai_message(thread_id, message_id,str( message.content))
+            self.add_ai_message(thread_id, message_id, str(message.content))
         else:
             raise ValueError("Unsupported message type. Use HumanMessage or AIMessage.")
 
     def _add_message(self, thread_id: str, message_id: str, role: str, content: str) -> None:
-        self.create_thread(thread_id)
         cur = self.conn.cursor()
         cur.execute(
             """
@@ -121,3 +125,6 @@ class DataBaseManager(BaseModel):
 
     def close(self) -> None:
         self.conn.close()
+
+def get_database_manager(db_path: str = "user_space/history.db"):
+    return DataBaseManager(db_path=db_path)

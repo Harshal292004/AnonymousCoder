@@ -1,10 +1,10 @@
 from pydantic import BaseModel
 from uuid import uuid4
-from ..utilities.config import AppSettings
+from ..config.config import AppSettings
 from core.graph.graph import create_graph
 from langchain_core.messages import HumanMessage, SystemMessage, AIMessage,ToolMessage
 from core.states.AnonymousState import AnonymousState
-from infrastructure.databases.sql_database import DataBaseManager
+from infrastructure.databases.sql_database import get_database_manager
 from infrastructure.databases.vector_database import initialize_vector_store
 from infrastructure.llm_clients.llms import ModelProvider,LLMConfig,GroqLLM
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
@@ -15,11 +15,17 @@ from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 class Application(BaseModel):
 
     def __init__(self,settings:AppSettings):
+        
         self.settings=settings
-        self.database=DataBaseManager(db_path="temp.db")
+        
+        self.database=get_database_manager(db_path="user_space/history.db")
+        
         initialize_vector_store(db_file=settings.VECTOR_DB_FILE,embedding_model=HuggingFaceEmbeddings(model_name=settings.EMBEDDINGS_MODEL_NAME, model_kwargs={"device":settings.DEVICE}))
+        
         llm_config=LLMConfig(provider=ModelProvider.GROQ,model_name="")
+        
         llm=GroqLLM().create_llm(config=llm_config)
+        
         self.graph=create_graph(llm=llm)
 
     def invoke(self):
@@ -52,7 +58,6 @@ class Application(BaseModel):
             else:
                 #run the graph with prompt history
                 # append messages in the prompt with System Prompt
-                messages=
                 output=self.graph.invoke(AnonymousState(messages=[HumanMessage(query)]))
             
                 message_id=str(uuid4())
