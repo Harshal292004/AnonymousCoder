@@ -1,0 +1,40 @@
+Screen{
+    background: #000;
+    align: center middle;
+}
+
+IntroHeader{
+    padding: 1 2;
+    content-align: center middle;
+}   
+
+#main_scroll {
+    height: 1fr;
+}
+
+#user_input {
+    margin: 0 10;
+    width: 80%;
+    background: #000;
+    color: #fff;
+    border: solid #888;
+    outline: none;
+}
+
+
+#chat_container {
+    height: auto;
+    padding: 1;
+}
+
+TextArea {
+    height: 10;
+    margin: 1;
+}
+
+ChatMessage {
+    margin: 1 0;
+    padding: 1;
+    background: #000;
+    border-left: thick $accent;
+}
