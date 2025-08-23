@@ -4,4 +4,3 @@ from typing import List ,Optional
 
 class AnonymousState(BaseModel):
     messages: List[BaseMessage]
-    error_count: Optional[int] 

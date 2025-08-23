@@ -1,19 +1,33 @@
+from typing  import List
 from ..states.AnonymousState import AnonymousState
 from prompts.system_prompt import get_system_prompt
 from infrastructure.llm_clients.llms import GroqLLM,LLMConfig
 from langchain_core.language_models import BaseChatModel
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 from prompts.system_prompt import get_memory_prompt
+from langgraph.prebuilt import create_react_agent
+from langchain_core.messages import BaseMessage,SystemMessage,HumanMessage,AIMessage
+from tools.vector_data_base_tools import VECTOR_STORE_TOOLS
 def get_memory_node(llm:BaseChatModel):
     def memory_node(state:AnonymousState):
-        query=state.messages[-1]
+        query=""
+        for msg in reversed(state.messages):
+            if isinstance(msg, HumanMessage):
+                query=msg.content
+                break
+            
         memory_prompt=get_memory_prompt()
-        llm_with_tools=llm.bind_tools([])
-        
-        memory_ananlysis_chain=
-        
-        pass
-
+        prompts:List[BaseMessage]=[SystemMessage(content=memory_prompt),HumanMessage(content=query)]
+            
+        agent = create_react_agent(
+            model=llm,
+            tools=VECTOR_STORE_TOOLS
+        )
+        output=agent.invoke({"messages": prompts})
+        print(output)
+        return{
+            "messages":[],            
+        }
     return memory_node
 
 def understand_query_node(state:AnonymousState):

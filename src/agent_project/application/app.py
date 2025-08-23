@@ -52,7 +52,9 @@ class Application(BaseModel):
             else:
                 #run the graph with prompt history
                 # append messages in the prompt with System Prompt
-                output=self.graph.invoke(AnonymousState(messages=[HumanMessage(query)],error_count=0))
+                messages=
+                output=self.graph.invoke(AnonymousState(messages=[HumanMessage(query)]))
+            
                 message_id=str(uuid4())
                 self.database.add_ai_message(thread_id=thread_id,message_id=message_id,content=output["messages"])
 
