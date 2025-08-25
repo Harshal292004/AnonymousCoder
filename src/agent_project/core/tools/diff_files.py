@@ -1,6 +1,8 @@
 import difflib
 from pathlib import Path
+
 from langchain_core.tools import tool
+
 
 def load_file(path: str):
     try:

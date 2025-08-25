@@ -1,6 +1,5 @@
 from mcp.server.fastmcp import FastMCP
 
-
 mcp= FastMCP("File System")
 
 @mcp.prompt()

@@ -2,14 +2,16 @@ import os
 from abc import ABC, abstractmethod
 from enum import Enum
 from typing import Optional
-from pydantic import BaseModel, Field, field_validator,SecretStr
+
 from langchain_core.language_models import BaseChatModel
-from langchain_ollama import ChatOllama
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_openai import ChatOpenAI
 from langchain_groq import ChatGroq
-from openai import OpenAI
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
+from langchain_ollama import ChatOllama
+from langchain_openai import ChatOpenAI
+from pydantic import BaseModel, Field, SecretStr, field_validator
+
+
 class ModelProvider(str, Enum):
     """Supported LLM providers."""
     OPENAI = "openai"
@@ -49,7 +51,6 @@ class BaseLLM(ABC):
     @abstractmethod
     def create_llm(self, config: LLMConfig) -> BaseChatModel:
         """Create an LLM instance based on configuration."""
-        pass
 
 class OpenAILLM(BaseLLM):
     
@@ -123,7 +124,6 @@ class HuggingFaceEmbeddingsLLM():
             model_kwargs={"device":"cpu"},
             encode_kwargs={"normalize_embeddings":False}
         )
-        pass
     
     def get_embeddings(self,text:str,encoding_format):
         

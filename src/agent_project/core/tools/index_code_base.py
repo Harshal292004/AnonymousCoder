@@ -1,4 +1,4 @@
-from langchain.tools import tool 
+from langchain.tools import tool
 
 
 @tool 

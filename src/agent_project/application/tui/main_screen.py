@@ -1,13 +1,11 @@
-from textual.app import ComposeResult
-from textual.widgets import (
-    Footer,
-    Input,
-)
-from textual.containers import VerticalScroll, Container
-from textual.widget import Widget
 from datetime import datetime
-from textual.screen import Screen
+
+from textual.app import ComposeResult
+from textual.containers import Container, VerticalScroll
 from textual.reactive import reactive
+from textual.screen import Screen
+from textual.widget import Widget
+from textual.widgets import Footer, Input
 
 
 class IntroHeader(Widget):

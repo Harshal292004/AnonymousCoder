@@ -1,7 +1,9 @@
-from langgraph.graph import StateGraph,START,END
 from langchain_core.language_models import BaseChatModel
-from states.AnonymousState import AnonymousState
-from nodes import get_memory_node,understand_query_node,error_handler_node,general_query_node,index_code_base_node,scaffold_project_node
+from langgraph.checkpoint.memory import InMemorySaver
+from langgraph.graph import END, START, StateGraph
+
+from ..states.AnonymousState import AnonymousState
+from .nodes import get_memory_node
 
 
 def create_graph(llm:BaseChatModel):
@@ -14,6 +16,7 @@ def create_graph(llm:BaseChatModel):
     # builder.add_node("general_query_node",general_query_node)
     # builder.add_node("index_code_base",index_code_base_node)
     # builder.add_node("scaffold_project",scaffold_project_node)
+    checkpointer=InMemorySaver()
     builder.add_edge("memory_node",END)
-    code_graph=builder.compile()
+    code_graph=builder.compile(checkpointer=checkpointer)
     return code_graph

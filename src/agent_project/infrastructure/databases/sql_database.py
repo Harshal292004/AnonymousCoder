@@ -1,8 +1,10 @@
 import sqlite3
-from typing import List
 from datetime import datetime
+from typing import List
+
+from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 from pydantic import BaseModel, Field
-from langchain_core.messages import HumanMessage, AIMessage, BaseMessage
+
 
 class DataBaseManager(BaseModel):
     """SQLite conversation store for threads and messages."""

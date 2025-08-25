@@ -1,6 +1,8 @@
 import sqlite3
 from typing import Optional
+
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
+
 
 # Global configuration - shared across all tools
 class VectorStoreConfig:

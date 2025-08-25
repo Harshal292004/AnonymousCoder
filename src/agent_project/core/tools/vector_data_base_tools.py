@@ -1,9 +1,14 @@
-from infrastructure.databases.vector_database import _get_config
-from langchain_core.tools import tool
-import numpy as np
+import sqlite3
 import uuid
 from typing import Dict, List
-import sqlite3
+
+import numpy as np
+from langchain_core.tools import tool
+
+from src.agent_project.infrastructure.databases.vector_database import \
+    _get_config
+
+
 # Utility functions
 def _serialize_embedding(embedding: List[float]) -> bytes:
     """Convert embedding list to bytes for storage."""
