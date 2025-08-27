@@ -1,14 +1,21 @@
-from loguru import logger
+from loguru import logger as log
+
+_configured = False
 
 
-def get_logger(enable_logging: bool = True, log_file: str = "logs/agent_project.log"):
+def init_logger(enable_logging: bool = True, log_file: str = "logs/agent_project.log"):
+    global _configured
+    if _configured:
+        return log
+    
+    # Ensure no duplicate sinks
+    log.remove()
+    
     if enable_logging:
-        logger.add(log_file, level="TRACE", rotation="10 MB", retention="10 days")
-        return logger
+        log.add(log_file, level="TRACE", rotation="10 MB", retention="10 days")
     else:
-        class DummyLogger:
-            def __getattr__(self, name):
-                def no_op(*args, **kwargs):
-                    pass
-                return no_op
-        return DummyLogger()
+        # Swallow all logs when disabled
+        log.add(lambda *args, **kwargs: None)
+    
+    _configured = True
+    return log

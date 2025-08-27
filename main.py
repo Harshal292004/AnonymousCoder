@@ -5,12 +5,22 @@ from src.agent_project.config.config import AppSettings
 
 
 def main():
-    settings=AppSettings(
+    # Get environment variables with defaults
+    groq_api_key = os.getenv("GROQ_API_KEY", "dummy_key_for_testing")
+    langfuse_host = os.getenv("LANGFUSE_HOST", "http://localhost:3000")
+    langfuse_secret_key = os.getenv("LANGFUSE_SECRET_KEY")
+    langfuse_public_key = os.getenv("LANGFUSE_PUBLIC_KEY")
+    
+    
+    if not langfuse_public_key or  not langfuse_secret_key:
+        return
+    
+    settings = AppSettings(
         TRACING=False,
-        GROQ_API_KEY=str(os.getenv("GROQ_API_KEY")),
-        LANGFUSE_HOST=str(os.getenv("LANGFUSE_HOST")),
-        LANGFUSE_SECRET_KEY=str(os.getenv("LANGFUSE_SECRET_KEY")),
-        LANGFUSE_PUBLIC_KEY=str(os.getenv("LANGFUSE_PUBLIC_KEY")),
+        GROQ_API_KEY=groq_api_key,
+        LANGFUSE_HOST=langfuse_host,
+        LANGFUSE_SECRET_KEY=langfuse_secret_key,
+        LANGFUSE_PUBLIC_KEY=langfuse_public_key,
         EMBEDDINGS_MODEL_NAME="sentence-transformers/all-mpnet-base-v2",
         VECTOR_DB_FILE="user_space/trail.db",
         DEVICE="cpu",
@@ -18,7 +28,16 @@ def main():
         LOG_FILE="user_space/logs.log",
         LOGGING=True
     )
-    app = Application(settings=settings)
+    
+    # Create the application instance directly
+    app = Application(
+        settings=settings,
+        database=None,  # Will be set in model_post_init
+        tracer=None,    # Will be set in model_post_init
+        thread_id="",   # Will be set in model_post_init
+        graph=None      # Will be set in model_post_init
+    )
+    
     app.invoke()
     
 if __name__ == "__main__":

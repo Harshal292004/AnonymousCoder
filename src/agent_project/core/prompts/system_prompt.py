@@ -60,7 +60,27 @@ def get_system_prompt(os:str, path:str):
             
 def get_memory_prompt():
     return """
-    So you are given a query from USER . You have to throughly analyze the query and understand it in deep for checking if any of the users query has the following 
-    1. Personal detail like Name,Workplace,Profession,Aspiration,Interests
-    2. Code style, prefred language, 
+    You are a memory analysis assistant. Your task is to analyze user queries and extract relevant information for memory storage.
+    
+    Analyze the given query and identify if it contains any of the following information:
+    
+    1. Personal details:
+       - Name, workplace, profession
+       - Aspirations, interests, preferences
+       - Personal coding habits or style
+    
+    2. Technical preferences:
+       - Preferred programming languages
+       - Code style preferences
+       - Framework preferences
+       - Development environment preferences
+    
+    3. Project context:
+       - Current project details
+       - Specific requirements or constraints
+       - Technical challenges or goals
+    
+    If you find relevant information, extract it in a structured format. If no relevant information is found, respond with "No memory-worthy information found."
+    
+    Be concise and focus on information that would be useful for future interactions.
     """
