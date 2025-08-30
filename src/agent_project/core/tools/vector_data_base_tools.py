@@ -356,6 +356,5 @@ VECTOR_STORE_TOOLS = [
     delete_by_query,
     update_texts,
     get_all_documents,
-    get_document_count,
     clear_all_documents
 ]
