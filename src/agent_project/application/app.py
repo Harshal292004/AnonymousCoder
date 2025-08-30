@@ -7,7 +7,6 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.runnables import RunnableConfig
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 from langfuse.langchain.CallbackHandler import LangchainCallbackHandler
-from langgraph.graph import StateGraph
 from langgraph.graph.state import CompiledStateGraph
 from langgraph.types import StateSnapshot
 from pydantic import BaseModel, Field
@@ -37,7 +36,11 @@ class Application(BaseModel):
 
     class Config:
         arbitrary_types_allowed = True
-
+        
+        
+    def _check_project_open(self,path):
+        dir=path
+    
     def model_post_init(self) -> None:
         log=init_logger(enable_logging=self.settings.LOGGING, log_file=self.settings.LOG_FILE)
         log.info("Warming up...")

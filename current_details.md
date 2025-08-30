@@ -36,3 +36,7 @@ add in system prompt about memory related queries like "Remeber I am an Incapabl
 
 
 Add tabs feature so that you dont need to restart the app for a new chat just add a tab and continue to new chat 
+
+
+
+No indexing for now

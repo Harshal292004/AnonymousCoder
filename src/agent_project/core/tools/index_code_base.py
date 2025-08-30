@@ -1,10 +1,7 @@
 import ast
-import os
 from pathlib import Path
 from typing import Any, Dict, List
 
-from langchain.schema import Document
-from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.tools import tool
 
 

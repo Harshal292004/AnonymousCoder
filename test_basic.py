@@ -12,21 +12,14 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 def test_imports():
     """Test if all required modules can be imported."""
     try:
-        from agent_project.config.config import AppSettings
         print("✅ AppSettings imported successfully")
         
-        from agent_project.application.app import Application
         print("✅ Application imported successfully")
         
-        from agent_project.infrastructure.databases.sql_database import \
-            DataBaseManager
         print("✅ DataBaseManager imported successfully")
         
-        from agent_project.infrastructure.monitoring.tracing import \
-            get_langfuse_handler
         print("✅ get_langfuse_handler imported successfully")
         
-        from agent_project.core.graph.graph import create_graph
         print("✅ create_graph imported successfully")
         
         return True

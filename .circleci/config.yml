@@ -1,0 +1,29 @@
+version: 2.1
+
+jobs:
+  lint:
+    docker:
+      - image: cimg/python:3.12
+    steps:
+      - checkout
+      - run:
+          name: Install uv
+          command: |
+            curl -LsSf https://astral.sh/uv/install.sh | sh
+            export PATH="$HOME/.cargo/bin:$PATH"
+      - run:
+          name: Install dependencies
+          command: |
+            uv pip install --system autoflake isort
+      - run:
+          name: Check autoflake
+          command: autoflake --check --remove-all-unused-imports -r .
+      - run:
+          name: Check isort
+          command: isort --check-only .
+
+workflows:
+  version: 2
+  linting:
+    jobs:
+      - lint
