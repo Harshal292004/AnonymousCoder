@@ -22,7 +22,7 @@ def main():
         LANGFUSE_SECRET_KEY=langfuse_secret_key,
         LANGFUSE_PUBLIC_KEY=langfuse_public_key,
         EMBEDDINGS_MODEL_NAME="sentence-transformers/all-mpnet-base-v2",
-        VECTOR_DB_FILE="user_space/trail.db",
+        QDRANT_COLLECTION="app_documents",
         DEVICE="cpu",
         LLM_NAME="openai/gpt-oss-120b",
         LOG_FILE="user_space/logs.log",

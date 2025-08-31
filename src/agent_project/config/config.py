@@ -8,7 +8,7 @@ class AppSettings(BaseModel):
     LANGFUSE_PUBLIC_KEY: str
     LANGFUSE_SECRET_KEY: str
     LANGFUSE_HOST: str
-    VECTOR_DB_FILE: str = Field(default="user_space/memories.db")
+    QDRANT_COLLECTION: str = Field(default="app_documents")
     EMBEDDINGS_MODEL_NAME: str = Field(default="sentence-transformers/all-mpnet-base-v2")
     DEVICE: str = Field(default="cpu")
     GROQ_API_KEY: str

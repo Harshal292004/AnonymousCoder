@@ -10,17 +10,17 @@ jobs:
           name: Install uv
           command: |
             curl -LsSf https://astral.sh/uv/install.sh | sh
-            export PATH="$HOME/.cargo/bin:$PATH"
+            echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> $BASH_ENV
       - run:
           name: Install dependencies
-          command: |
-            uv pip install --system autoflake isort
+          command: uv pip install --system autoflake isort
       - run:
           name: Check autoflake
           command: autoflake --check --remove-all-unused-imports -r .
       - run:
           name: Check isort
           command: isort --check-only .
+
 
 workflows:
   version: 2

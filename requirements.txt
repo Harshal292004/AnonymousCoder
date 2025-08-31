@@ -2,13 +2,17 @@ dotenv
 langchain
 langchain-community
 langchain-google-genai
+langchain-groq
+langchain-huggingface
 langchain-ollama
 langchain-openai
 langfuse
 langgraph
 loguru
 pydantic
+qdrant-client
 rich
+sentence-transformers
 sqlalchemy
 tenacity
 textual

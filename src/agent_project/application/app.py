@@ -54,10 +54,10 @@ class Application(BaseModel):
                 model_name=self.settings.EMBEDDINGS_MODEL_NAME, 
                 model_kwargs={"device": self.settings.DEVICE}
             )
-            initialize_vector_store(db_file=self.settings.VECTOR_DB_FILE, embedding_model=embedding_model)
-            log.info("Vector store initialized successfully")
+            initialize_vector_store(collection_name=self.settings.QDRANT_COLLECTION, embedding_model=embedding_model)
+            log.info("Qdrant vector store initialized successfully")
         except Exception as e:
-            log.warning(f"Could not initialize vector store: {e}")
+            log.warning(f"Could not initialize Qdrant vector store: {e}")
             log.info("Continuing without vector store functionality")
         
         # create LLM
