@@ -8,6 +8,8 @@ class AppSettings(BaseModel):
     LANGFUSE_PUBLIC_KEY: str
     LANGFUSE_SECRET_KEY: str
     LANGFUSE_HOST: str
+    QDRANT_HOST: str = Field(default="localhost:6333")
+    QDRANT_API_KEY: str = Field(default="")
     QDRANT_COLLECTION: str = Field(default="app_documents")
     EMBEDDINGS_MODEL_NAME: str = Field(default="sentence-transformers/all-mpnet-base-v2")
     DEVICE: str = Field(default="cpu")

@@ -40,3 +40,7 @@ Add tabs feature so that you dont need to restart the app for a new chat just ad
 
 
 No indexing for now
+
+So basically what we need is an auth layer so that when using qdrant cloud or using the application with the help of cloud services then you literally just have to have an user_id , a token so that all of your data isnt a public access ( most importantly not in a LLM's traning corpus)
+
+For now we are sticking with everything local so no need of a user_id

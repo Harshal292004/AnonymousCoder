@@ -54,7 +54,12 @@ class Application(BaseModel):
                 model_name=self.settings.EMBEDDINGS_MODEL_NAME, 
                 model_kwargs={"device": self.settings.DEVICE}
             )
-            initialize_vector_store(collection_name=self.settings.QDRANT_COLLECTION, embedding_model=embedding_model)
+            initialize_vector_store(
+                host=self.settings.QDRANT_HOST, 
+                api_key=self.settings.QDRANT_API_KEY, 
+                embeddings=embedding_model,
+                collection_name=self.settings.QDRANT_COLLECTION
+            )
             log.info("Qdrant vector store initialized successfully")
         except Exception as e:
             log.warning(f"Could not initialize Qdrant vector store: {e}")

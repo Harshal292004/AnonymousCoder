@@ -7,7 +7,7 @@ from langgraph.prebuilt import create_react_agent
 from ..prompts.system_prompt import (get_context_injection_prompt,
                                      get_memory_prompt)
 from ..states.AnonymousState import AnonymousState
-from ..tools.vector_data_base_tools import VECTOR_STORE_TOOLS
+from ..tools.vector_database_tools import VECTOR_STORE_TOOLS
 
 
 def get_memory_node(llm: BaseChatModel):
