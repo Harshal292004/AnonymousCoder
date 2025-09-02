@@ -162,3 +162,14 @@ def get_context_injection_prompt():
     Example: Say a user asks this : "Hey!, I wanted to change the ui to the style I prefer generally"
     Now you need to do a similarity search with the query : "Design: Prefered choice of desinging a UI"
     """
+    
+def get_execution_prompt():
+   return """
+   
+   """
+   
+   
+def get_summarization_prompt():
+   return """
+
+   """

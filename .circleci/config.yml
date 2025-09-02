@@ -13,13 +13,19 @@ jobs:
             echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> $BASH_ENV
       - run:
           name: Install dependencies
-          command: uv pip install --system autoflake isort
+          command: |
+            uv venv
+            uv pip install autoflake isort
       - run:
           name: Check autoflake
-          command: autoflake --check --remove-all-unused-imports -r .
+          command: |
+            source .venv/bin/activate
+            autoflake --check --remove-all-unused-imports -r .
       - run:
           name: Check isort
-          command: isort --check-only .
+          command: |
+            source .venv/bin/activate
+            isort --check-only .
 
 
 workflows:

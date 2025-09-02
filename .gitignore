@@ -4,8 +4,6 @@ __pycache__
 *.db
 *.lock
 uv.lock
-__init__.py
-*/__init__.py
 user_space
 trail.py
 output.py
