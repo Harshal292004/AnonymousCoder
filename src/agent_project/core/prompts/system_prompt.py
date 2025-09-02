@@ -70,14 +70,12 @@ def get_memory_prompt():
     - If some information is no longer valid, delete it.
     - If nothing is useful, do not update memory.
 
-    Tools available:
-        - add_texts
-        - similarity_search
-        - delete_by_ids
-        - delete_by_query
-        - update_texts
-        - get_all_documents
-        - clear_all_documents
+    Tools available: 
+         - add_texts,
+         - delete_text,
+         - update_text,
+         - similarity_search
+
 
     Categories of memory:
     1. Technical preferences:
@@ -106,7 +104,8 @@ def get_memory_prompt():
 
     Action: Delete any "hybrid style" or "object oriented" preference. Add "Technical: Likes Functional Programming over Object Orientation".
 
-    Final Output: memory updated
+    Final Output: memory updated ( If memory is updated )
+    no memory updated ( if no memory is updated)
     """
 
 
@@ -150,7 +149,6 @@ def get_context_injection_prompt():
     you must perform a memory search using the memory search tool:
 
         similarity_search
-        get_all_documents
 
     Any memories retrieved must be formatted into a system prompt in simple markdown  
     before being applied to the response.
@@ -160,4 +158,7 @@ def get_context_injection_prompt():
 
     **DO NOT** try to solve the issue the user is facing in the prompt.  
     Your only task is to create a prompt, nothing else.
+    
+    Example: Say a user asks this : "Hey!, I wanted to change the ui to the style I prefer generally"
+    Now you need to do a similarity search with the query : "Design: Prefered choice of desinging a UI"
     """

@@ -21,7 +21,7 @@ class QdrantVectorStore:
     
     def __init__(self, host: str, api_key: str, embeddings: Embeddings) -> None:
         if not hasattr(self, "_initialized"):
-            self.client = QdrantClient(host=host, api_key=api_key)
+            self.client = QdrantClient(url=host, api_key=api_key)
             self.embeddings = embeddings
             self._initialized = True
             
