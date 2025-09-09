@@ -173,3 +173,9 @@ def get_summarization_prompt():
    return """
 
    """
+   
+   
+def get_scaffolding_prompt():
+   return """
+   
+   """
