@@ -14,8 +14,23 @@ from .vector_database_tools import *
 from .window_power_shell import *
 from .write_code_to_file_path import *
 from .ask_user_tool import *
+
 FILE_SYS_TOOLS=[
     create_file,delete_file,
     show_diff,edit_file,
-    
+]
+
+# Shell tools for persistent shell sessions
+SHELL_TOOLS = [
+    use_shell,
+    get_shell_working_directory,
+    reset_shell_directory,
+]
+
+# PowerShell tools for Windows systems
+POWERSHELL_TOOLS = [
+    use_powershell,
+    get_powershell_working_directory,
+    reset_powershell_directory,
+    check_powershell_availability,
 ]

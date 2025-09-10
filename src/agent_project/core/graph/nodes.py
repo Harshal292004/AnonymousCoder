@@ -15,7 +15,7 @@ from ..prompts.system_prompt import (
     get_scaffolding_prompt
 )
 from ..states.AnonymousState import AnonymousState
-from ..tools import FILE_SYS_TOOLS,ask_user_tool,get_current_directory,get_framework_context
+from ..tools import FILE_SYS_TOOLS,SHELL_TOOLS,POWERSHELL_TOOLS,ask_user_tool,get_current_directory,get_framework_context
 from ..tools.vector_database_tools import VECTOR_STORE_TOOLS, similarity_search
 
 
@@ -102,7 +102,7 @@ def get_execution_node(llm: BaseChatModel):
 
         agent = create_react_agent(
             model=llm,
-            tools=FILE_SYS_TOOLS,
+            tools=FILE_SYS_TOOLS + SHELL_TOOLS + POWERSHELL_TOOLS,
         )
         messages = state.messages + [
             SystemMessage(content=EXECUTION_SYSTEM_PROMPT),
