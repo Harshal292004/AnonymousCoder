@@ -2,14 +2,14 @@ from langchain_core.language_models import BaseChatModel
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.graph import END, START, StateGraph
 
-from ..states.AnonymousState import AnonymousState
+from ..states.AppStates import AppState
 from .edges import route_edge
 from .nodes import (get_execution_node, get_memory_node, get_scaffolding_node,
                     get_understanding_node)
 
 
 def create_graph(llm: BaseChatModel):
-    builder = StateGraph(AnonymousState)
+    builder = StateGraph(AppState)
     memory_node = get_memory_node(llm=llm)
     understanding_node=get_understanding_node(llm=llm)
     execution_node=get_execution_node(llm=llm)

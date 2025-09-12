@@ -1,10 +1,10 @@
-import subprocess
 import os
-import threading
 import queue
 import select
-import sys
-from typing import Optional, Callable
+import subprocess
+import threading
+from typing import Optional
+
 
 class PersistentShell:
     def __init__(self, shell_type: str = None):

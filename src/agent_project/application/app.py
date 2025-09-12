@@ -11,9 +11,9 @@ from langgraph.graph.state import CompiledStateGraph
 from langgraph.types import StateSnapshot
 from pydantic import BaseModel, Field
 
+from agent_project.core.states.AppStates import AnonymousState
 from src.agent_project.core.graph.graph import create_graph
 from src.agent_project.core.prompts.system_prompt import get_system_prompt
-from src.agent_project.core.states.AnonymousState import AnonymousState
 
 from ..config.config import AppSettings
 from ..infrastructure.databases.sql_database import (DataBaseManager,
