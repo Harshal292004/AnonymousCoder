@@ -11,11 +11,11 @@ from langgraph.graph.state import CompiledStateGraph
 from langgraph.types import StateSnapshot
 from pydantic import BaseModel, Field
 
-from agent_project.core.states.AppStates import AnonymousState
 from src.agent_project.core.graph.graph import create_graph
 from src.agent_project.core.prompts.system_prompt import get_system_prompt
 
 from ..config.config import AppSettings
+from ..core.states.AppStates import AppState
 from ..infrastructure.databases.sql_database import (DataBaseManager,
                                                      get_database_manager)
 from ..infrastructure.databases.vector_database import initialize_vector_store
@@ -37,10 +37,6 @@ class Application(BaseModel):
     class Config:
         arbitrary_types_allowed = True
         
-        
-    def _check_project_open(self,path):
-        dir=path
-    
     def model_post_init(self) -> None:
         log=init_logger(enable_logging=self.settings.LOGGING, log_file=self.settings.LOG_FILE)
         log.info("Warming up...")
@@ -121,10 +117,10 @@ class Application(BaseModel):
                 if self.graph:
                     if first_chat:
                         first_chat=False
-                        output=self.graph.invoke(AnonymousState(messages=[SystemMessage(get_system_prompt(os=platform.system(),path=os.getcwd())),HumanMessage(query)]),config)
+                        output=self.graph.invoke(AppState(messages=[SystemMessage(get_system_prompt(os=platform.system(),path=os.getcwd())),HumanMessage(query)]),config)
                         print(output.get("content"))
                     else :
-                        output=self.graph.invoke(AnonymousState(messages=current_messages+[HumanMessage(query)]))
+                        output=self.graph.invoke(AppState(messages=current_messages+[HumanMessage(query)]))
                         print(output.get("content"))
                 else:
                     print("❌ LLM not available. Please check your configuration.")

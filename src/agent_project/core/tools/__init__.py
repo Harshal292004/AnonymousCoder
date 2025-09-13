@@ -21,11 +21,11 @@ FILE_SYS_TOOLS=[
 ]
 
 # Shell tools for persistent shell sessions
-SHELL_TOOLS = [
-    use_shell,
-    get_shell_working_directory,
-    reset_shell_directory,
-]
+# SHELL_TOOLS = [
+#     use_shell,
+#     get_shell_working_directory,
+#     reset_shell_directory,
+# ]
 
 # PowerShell tools for Windows systems
 POWERSHELL_TOOLS = [

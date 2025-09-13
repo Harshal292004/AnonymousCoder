@@ -1,8 +1,7 @@
-from frameworks.web_templates import (ANGULAR_JS_TEMPLATE, NEST_JS_TEMPLATE,
-                                      REACT_TEMPLATE,
-                                      REACT_WITH_NODE_JS_TEMPLATE,
-                                      REACT_WITH_VITE_TEMPLATE,
-                                      REMIX_JS_TEMPLATE, VUE_JS_TEMPLATE)
+from .web_templates import (ANGULAR_JS_TEMPLATE, NEST_JS_TEMPLATE,
+                            REACT_TEMPLATE, REACT_WITH_NODE_JS_TEMPLATE,
+                            REACT_WITH_VITE_TEMPLATE, REMIX_JS_TEMPLATE,
+                            VUE_JS_TEMPLATE)
 
 templates={
     "next_js_template":NEST_JS_TEMPLATE,

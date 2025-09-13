@@ -12,9 +12,9 @@ from ..prompts.system_prompt import (get_context_injection_prompt,
                                      get_scaffolding_prompt,
                                      get_summarization_prompt,
                                      get_understanding_prompt)
-from ..states.AppStates import AnonymousState
-from ..tools import (FILE_SYS_TOOLS, POWERSHELL_TOOLS, SHELL_TOOLS,
-                     ask_user_tool, get_framework_context)
+from ..states.AppStates import AppState
+from ..tools import (FILE_SYS_TOOLS, POWERSHELL_TOOLS, ask_user_tool,
+                     get_framework_context)
 from ..tools.vector_database_tools import VECTOR_STORE_TOOLS, similarity_search
 
 
@@ -25,7 +25,7 @@ class TypeOutput(BaseModel):
 
 
 def get_memory_node(llm: BaseChatModel):
-    def memory_node(state: AnonymousState):
+    def memory_node(state: AppState):
 
         # get the current user query
         query: str = state.query
@@ -54,7 +54,7 @@ def get_memory_node(llm: BaseChatModel):
 
 
 def get_summarization_node(llm: BaseChatModel):
-    def summarization_node(state: AnonymousState):
+    def summarization_node(state: AppState):
         messages = state.messages
         SUMMARIZATION_PROMPT: str = get_summarization_prompt()
 
@@ -75,7 +75,7 @@ def get_summarization_node(llm: BaseChatModel):
 
 
 def get_understanding_node(llm: BaseChatModel):
-    def understanding_node(state: AnonymousState):
+    def understanding_node(state: AppState):
         query = state.query
         UNDERSTANDING_SYSTEM_PROMPT: str = get_understanding_prompt()
         messages = ChatPromptTemplate(
@@ -95,7 +95,7 @@ def get_understanding_node(llm: BaseChatModel):
 
 
 def get_execution_node(llm: BaseChatModel):
-    def execution_node(state: AnonymousState):
+    def execution_node(state: AppState):
         query = state.query
         EXECUTION_SYSTEM_PROMPT: str = get_execution_prompt()
 
@@ -122,7 +122,7 @@ def get_execution_node(llm: BaseChatModel):
 class Framework(BaseModel):
     framework:Literal['NONE']
 def get_scaffolding_node(llm: BaseChatModel):
-    def scaffolding_node(state: AnonymousState):
+    def scaffolding_node(state: AppState):
         # take the current user prompt out
         query=state.query
         # current state of messages  must be System,Human,AI,Human,AI.....

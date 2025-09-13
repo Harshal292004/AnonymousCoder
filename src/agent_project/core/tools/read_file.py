@@ -4,6 +4,14 @@ from langchain_core.tools import tool
 
 @tool
 def read_file(path:str):
+    """_summary_
+
+    Args:
+        path (str): _description_
+
+    Returns:
+        _type_: _description_
+    """
     content=""
     try:
         with open(path,mode="r") as f:
