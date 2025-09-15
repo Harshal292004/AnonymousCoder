@@ -198,3 +198,8 @@ def get_title_prompt():
       ```
       Title: Fibonacci code
    """
+
+
+def get_plan_prompt()->str:
+   return """
+   """

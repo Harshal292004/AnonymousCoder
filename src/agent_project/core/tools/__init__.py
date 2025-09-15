@@ -11,6 +11,7 @@ from .grep_code import *
 from .read_file import *
 from .scaflod_projects import *
 from .shell import *
+from .user_memory import get_user_memory, update_memories
 from .vector_database_tools import *
 from .window_power_shell import *
 from .write_code_to_file_path import *
@@ -33,4 +34,21 @@ POWERSHELL_TOOLS = [
     get_powershell_working_directory,
     reset_powershell_directory,
     check_powershell_availability,
+]
+
+MEMORY_TOOLS=[
+    update_memories,
+    get_user_memory
+]
+
+VECTOR_STORE_TOOLS=[
+    add_texts,
+    delete_text,
+    update_text,
+    similarity_search
+]
+
+
+SHELL_TOOLS=[
+    
 ]
