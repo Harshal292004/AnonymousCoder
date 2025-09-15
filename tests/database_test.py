@@ -4,8 +4,8 @@ import tempfile
 import pytest
 from langchain_core.messages import AIMessage, HumanMessage
 
-from src.agent_project.infrastructure.databases.sql_database import (
-    DataBaseManager)
+from src.agent_project.infrastructure.databases.sql_database import \
+    DataBaseManager
 
 
 @pytest.fixture

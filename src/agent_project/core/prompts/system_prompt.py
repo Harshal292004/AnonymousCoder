@@ -162,20 +162,39 @@ def get_context_injection_prompt():
     Example: Say a user asks this : "Hey!, I wanted to change the ui to the style I prefer generally"
     Now you need to do a similarity search with the query : "Design: Prefered choice of desinging a UI"
     """
-    
+
+
 def get_execution_prompt():
-   return """
+    return """
    
    """
-   
-   
+
+
 def get_summarization_prompt():
-   return """
+    return """
 
    """
-   
-   
+
+
 def get_scaffolding_prompt():
-   return """
+    return """
    
+   """
+   
+def get_title_prompt():
+   return """
+      Generate a short, clear title that summarizes the conversation.  
+      Rules:
+      - Be concise (a few words only)  
+      - Capture the main topic of the chat  
+      - Output only the title (no commentary, no formatting, no extra text)  
+
+      Example:  
+      Conversation:  
+      Human: Generate me a code of fibonacci series  
+      AI: Here is the code for fibonacci series:  
+      ```
+      fibonacci code
+      ```
+      Title: Fibonacci code
    """

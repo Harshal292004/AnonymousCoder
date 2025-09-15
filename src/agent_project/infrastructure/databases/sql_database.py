@@ -62,6 +62,16 @@ class DataBaseManager(BaseModel):
             (thread_id, title, datetime.utcnow().isoformat()),
         )
         self.conn.commit()
+        
+    def alter_thread_title(self, thread_id: str, title: str) -> None:
+        curr = self.conn.cursor()
+        curr.execute(
+            """
+            UPDATE threads SET title = ? WHERE thread_id = ?
+            """,
+            (title, thread_id)
+        )
+        self.conn.commit()
 
     def delete_thread(self, thread_id: str) -> None:
         cur = self.conn.cursor()

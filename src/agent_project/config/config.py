@@ -22,9 +22,9 @@ class AppSettings(BaseModel):
     #TODO: VOICE_AGENTS
     #TODO: VOICE_MODE
     #TODO: ADD MCP SUPPORT
-    HISTORY_DB_FILE: str = Field(default="user_space/chats.db")
+    HISTORY_DB_FILE: str = Field(default="user_space/threads.db")
     # TO REMOVE IN DEVELOPMENT
-    LOG_FILE: str = Field(default="user_space/logs.log")
+    LOG_FILE: str = Field(default="user_space/app.log")
 
     class Config:
         arbitrary_types_allowed = True
